@@ -58,6 +58,10 @@ do
     if [ -n "${OPERATOR}" ]; then
       tailscale set --operator="${OPERATOR}"
     fi
+
+    if [ -n "${RELAY_SERVER_PORT}" ]; then
+      tailscale set --relay-server-port="${RELAY_SERVER_PORT}"
+    fi
     
     echo "Tailscale installation and configuration succeeded"
     exit 0
