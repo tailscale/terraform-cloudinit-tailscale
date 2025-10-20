@@ -70,14 +70,14 @@ STATEDIR_OVERRIDE=""
 
 # Create systemd drop-in configuration
 %{ if TAILSCALED_FLAG_STATEDIR != "" ~}
-cat << EOF | sudo tee /etc/systemd/system/tailscaled.service.d/lbrlabs-tf-module.conf
+cat << EOF | sudo tee /etc/systemd/system/tailscaled.service.d/terraform-cloudinit-tailscale.conf
 [Service]
 ExecStart=
 ExecStart=/usr/sbin/tailscaled $STATE_FLAG $SOCKET_FLAG $FLAGS
 $STATEDIR_OVERRIDE
 EOF
 %{ else ~}
-cat << EOF | sudo tee /etc/systemd/system/tailscaled.service.d/lbrlabs-tf-module.conf
+cat << EOF | sudo tee /etc/systemd/system/tailscaled.service.d/terraform-cloudinit-tailscale.conf
 [Service]
 ExecStart=
 ExecStart=/usr/sbin/tailscaled $STATE_FLAG $SOCKET_FLAG $FLAGS
