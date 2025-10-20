@@ -21,6 +21,16 @@ do
     tailscale_cmd="$tailscale_cmd --hostname=\"${HOSTNAME}\""
   fi
   
+  # Add advertise-tags to up command
+  if [ -n "${ADVERTISE_TAGS}" ]; then
+    tailscale_cmd="$tailscale_cmd --advertise-tags=\"${ADVERTISE_TAGS}\""
+  fi
+  
+  # Add advertise-routes to up command
+  if [ -n "${ADVERTISE_ROUTES}" ]; then
+    tailscale_cmd="$tailscale_cmd --advertise-routes=\"${ADVERTISE_ROUTES}\""
+  fi
+  
   # Execute the tailscale up command
   eval "$tailscale_cmd"
   
@@ -39,20 +49,12 @@ do
     tailscale set --netfilter-mode="${NETFILTER_MODE}"
     tailscale set --stateful-filtering="${STATEFUL_FILTERING}"
     
-    if [ -n "${ADVERTISE_ROUTES}" ]; then
-      tailscale set --advertise-routes="${ADVERTISE_ROUTES}"
-    fi
-    
     if [ -n "${EXIT_NODE}" ]; then
       tailscale set --exit-node="${EXIT_NODE}"
     fi
     
     if [ -n "${EXIT_NODE_ALLOW_LAN_ACCESS}" ] && [ "${EXIT_NODE_ALLOW_LAN_ACCESS}" = "true" ]; then
       tailscale set --exit-node-allow-lan-access="${EXIT_NODE_ALLOW_LAN_ACCESS}"
-    fi
-    
-    if [ -n "${ADVERTISE_TAGS}" ]; then
-      tailscale set --advertise-tags="${ADVERTISE_TAGS}"
     fi
     
     if [ -n "${OPERATOR}" ]; then
