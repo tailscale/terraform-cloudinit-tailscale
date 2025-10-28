@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Ensure ethtool is installed
+if ! command -v ethtool >/dev/null 2>&1; then
+    echo "ethtool not found. Skipping network optimizations."
+    exit 0
+fi
+
 # Get the current kernel version
 current_version=$(uname -r | cut -d'-' -f1 | cut -d'.' -f1,2)
 
