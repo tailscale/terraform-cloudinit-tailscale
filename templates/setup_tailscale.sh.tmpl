@@ -10,23 +10,40 @@ do
   sudo systemctl enable --now tailscaled
   
   # Construct the tailscale up command with connection/auth flags
-  tailscale_cmd="tailscale up --authkey \"${AUTH_KEY}\" \
+  tailscale_cmd="tailscale up \
     --json=\"${JSON}\" \
     --login-server=\"${LOGIN_SERVER}\" \
     --reset=\"${RESET}\" \
     --timeout=\"${TIMEOUT}\" \
     --force-reauth=\"${FORCE_REAUTH}\""
   
+  # Add authentication - either authkey or workload identity (id-token + client-id/client-secret)
+  if [ -n "${AUTH_KEY}" ]; then
+    tailscale_cmd="$tailscale_cmd --authkey=\"${AUTH_KEY}\""
+  fi
+  
+  if [ -n "${ID_TOKEN}" ]; then
+    tailscale_cmd="$tailscale_cmd --id-token=\"${ID_TOKEN}\""
+  fi
+  
+  if [ -n "${CLIENT_ID}" ]; then
+    tailscale_cmd="$tailscale_cmd --client-id=\"${CLIENT_ID}\""
+  fi
+  
+  if [ -n "${CLIENT_SECRET}" ]; then
+    tailscale_cmd="$tailscale_cmd --client-secret=\"${CLIENT_SECRET}\""
+  fi
+  
   if [ -n "${HOSTNAME}" ]; then
     tailscale_cmd="$tailscale_cmd --hostname=\"${HOSTNAME}\""
   fi
   
-  # Add advertise-tags to up command
+  # Add advertise-tags to up command (required for oauth authkeys)
   if [ -n "${ADVERTISE_TAGS}" ]; then
     tailscale_cmd="$tailscale_cmd --advertise-tags=\"${ADVERTISE_TAGS}\""
   fi
   
-  # Add advertise-routes to up command
+  # Add advertise-routes to up command (required for oauth authkeys)
   if [ -n "${ADVERTISE_ROUTES}" ]; then
     tailscale_cmd="$tailscale_cmd --advertise-routes=\"${ADVERTISE_ROUTES}\""
   fi

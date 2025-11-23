@@ -65,6 +65,8 @@ variable "advertise_tags" {
 variable "auth_key" {
   description = "Node authorization key; if it begins with 'file:', then it's a path to a file containing the authkey"
   type        = string
+  default     = ""
+  sensitive   = true
 }
 
 variable "exit_node" {
@@ -259,4 +261,24 @@ variable "tailscaled_flag_verbose" {
   description = "log verbosity level; 0 is default, 1 or higher are increasingly verbose"
   type        = number
   default     = 0
+}
+
+variable "id_token" {
+  description = "ID token from the identity provider to exchange with the control server for workload identity federation; if it begins with \"file:\", then it's a path to a file containing the token"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "client_id" {
+  description = "Client ID used to generate authkeys via workload identity federation"
+  type        = string
+  default     = ""
+}
+
+variable "client_secret" {
+  description = "Client Secret used to generate authkeys via OAuth; if it begins with \"file:\", then it's a path to a file containing the secret"
+  type        = string
+  default     = ""
+  sensitive   = true
 }
