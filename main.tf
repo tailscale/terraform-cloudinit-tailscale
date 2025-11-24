@@ -1,6 +1,20 @@
+locals {
+  # Validate that either auth_key or workload identity credentials are provided
+  has_auth_key          = var.auth_key != ""
+  has_workload_identity = var.id_token != "" && (var.client_id != "" || var.client_secret != "")
+  has_valid_auth        = local.has_auth_key || local.has_workload_identity
+}
+
 data "cloudinit_config" "main" {
   gzip          = var.gzip
   base64_encode = var.base64_encode
+
+  lifecycle {
+    precondition {
+      condition     = local.has_valid_auth
+      error_message = "Either auth_key must be provided, or id_token with at least one of client_id or client_secret must be provided for workload identity federation."
+    }
+  }
 
   part {
     filename     = "ip_forwarding.sh"
@@ -72,6 +86,9 @@ data "cloudinit_config" "main" {
       MAX_RETRIES                = var.max_retries
       RETRY_DELAY                = var.retry_delay
       RELAY_SERVER_PORT          = var.relay_server_port
+      ID_TOKEN                   = sensitive(var.id_token)
+      CLIENT_ID                  = var.client_id
+      CLIENT_SECRET              = sensitive(var.client_secret)
     })
   }
 

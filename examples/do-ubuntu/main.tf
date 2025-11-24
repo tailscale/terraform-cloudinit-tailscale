@@ -16,6 +16,7 @@ module "ubuntu-tailscale-client" {
 }
 
 resource "digitalocean_droplet" "ubuntu" {
+  #checkov:skip=CKV_DIO_2:SSH key is provided via variable
   image     = data.digitalocean_image.ubuntu.id
   name      = "lbr-ubuntu-example"
   region    = "sfo2"
@@ -25,6 +26,7 @@ resource "digitalocean_droplet" "ubuntu" {
 }
 
 resource "digitalocean_droplet" "centos" {
+  #checkov:skip=CKV_DIO_2:SSH key is provided via variable
   image     = data.digitalocean_image.centos.id
   name      = "lbr-centos-example"
   region    = "sfo2"
