@@ -77,7 +77,7 @@ ExecStart=/usr/sbin/tailscaled $STATE_FLAG $SOCKET_FLAG $FLAGS
 $STATEDIR_OVERRIDE
 EOF
 %{ else ~}
-cat << EOF | sudo tee /etc/systemd/system/tailscaled.service.d/lterraform-cloudinit-tailscale.conf
+cat << EOF | sudo tee /etc/systemd/system/tailscaled.service.d/terraform-cloudinit-tailscale.conf
 [Service]
 ExecStart=
 ExecStart=/usr/sbin/tailscaled $STATE_FLAG $SOCKET_FLAG $FLAGS
