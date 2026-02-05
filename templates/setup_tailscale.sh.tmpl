@@ -33,6 +33,10 @@ do
   if [ -n "${CLIENT_SECRET}" ]; then
     tailscale_cmd="$tailscale_cmd --client-secret=\"${CLIENT_SECRET}\""
   fi
+
+  if [ -n "${AUDIENCE}" ]; then
+    tailscale_cmd="$tailscale_cmd --audience=\"${AUDIENCE}\""
+  fi
   
   if [ -n "${HOSTNAME}" ]; then
     tailscale_cmd="$tailscale_cmd --hostname=\"${HOSTNAME}\""

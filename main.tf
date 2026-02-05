@@ -2,7 +2,8 @@ locals {
   # Validate that either auth_key or workload identity credentials are provided
   has_auth_key          = var.auth_key != ""
   has_workload_identity = var.id_token != "" && (var.client_id != "" || var.client_secret != "")
-  has_valid_auth        = local.has_auth_key || local.has_workload_identity
+  has_workload_identity_audience = var.audience != "" && var.client_id != ""
+  has_valid_auth        = local.has_auth_key || local.has_workload_identity || local.has_workload_identity_audience
 }
 
 data "cloudinit_config" "main" {
@@ -12,7 +13,7 @@ data "cloudinit_config" "main" {
   lifecycle {
     precondition {
       condition     = local.has_valid_auth
-      error_message = "Either auth_key must be provided, or id_token with at least one of client_id or client_secret must be provided for workload identity federation."
+      error_message = "Either auth_key must be provided, or id_token with at least one of client_id or client_secret, or audience with client_id must be provided for workload identity federation."
     }
   }
 
@@ -89,6 +90,7 @@ data "cloudinit_config" "main" {
       ID_TOKEN                   = sensitive(var.id_token)
       CLIENT_ID                  = var.client_id
       CLIENT_SECRET              = sensitive(var.client_secret)
+      AUDIENCE                   = var.audience
     })
   }
 
