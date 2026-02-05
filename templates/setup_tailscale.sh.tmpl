@@ -1,5 +1,35 @@
 #!/bin/sh
 
+# Function to resolve a value that may have file: or command: prefix
+# Returns the resolved value via stdout
+resolve_value() {
+  local value="$1"
+  
+  case "$value" in
+    file:*)
+      cat "$${value#file:}" | tr -d '\n'
+      ;;
+    command:*)
+      eval "$${value#command:}" | tr -d '\n'
+      ;;
+    *)
+      printf '%s' "$value"
+      ;;
+  esac
+}
+
+# Function to add a flag with a resolved value to the tailscale command
+# Usage: add_flag_with_value <flag_name> <value>
+add_flag_with_value() {
+  local flag_name="$1"
+  local value="$2"
+  
+  if [ -n "$value" ]; then
+    resolved_value=$(resolve_value "$value")
+    tailscale_cmd="$tailscale_cmd --$flag_name=\"$resolved_value\""
+  fi
+}
+
 # Verify we have internet connectivity
 max_retries=${MAX_RETRIES}
 retry_delay=${RETRY_DELAY}
@@ -18,21 +48,10 @@ do
     --force-reauth=\"${FORCE_REAUTH}\""
   
   # Add authentication - either authkey or workload identity (id-token + client-id/client-secret)
-  if [ -n "${AUTH_KEY}" ]; then
-    tailscale_cmd="$tailscale_cmd --authkey=\"${AUTH_KEY}\""
-  fi
-  
-  if [ -n "${ID_TOKEN}" ]; then
-    tailscale_cmd="$tailscale_cmd --id-token=\"${ID_TOKEN}\""
-  fi
-  
-  if [ -n "${CLIENT_ID}" ]; then
-    tailscale_cmd="$tailscale_cmd --client-id=\"${CLIENT_ID}\""
-  fi
-  
-  if [ -n "${CLIENT_SECRET}" ]; then
-    tailscale_cmd="$tailscale_cmd --client-secret=\"${CLIENT_SECRET}\""
-  fi
+  add_flag_with_value "authkey" "${AUTH_KEY}"
+  add_flag_with_value "id-token" "${ID_TOKEN}"
+  add_flag_with_value "client-id" "${CLIENT_ID}"
+  add_flag_with_value "client-secret" "${CLIENT_SECRET}"
 
   if [ -n "${AUDIENCE}" ]; then
     tailscale_cmd="$tailscale_cmd --audience=\"${AUDIENCE}\""
