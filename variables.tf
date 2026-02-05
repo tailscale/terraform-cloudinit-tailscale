@@ -63,7 +63,7 @@ variable "advertise_tags" {
 }
 
 variable "auth_key" {
-  description = "Node authorization key; if it begins with 'file:', then it's a path to a file containing the authkey"
+  description = "Node authorization key; if it begins with 'file:', then it's a path to a file containing the authkey; if it begins with 'command:', then it's a command to execute that outputs the authkey"
   type        = string
   default     = ""
   sensitive   = true
@@ -264,7 +264,7 @@ variable "tailscaled_flag_verbose" {
 }
 
 variable "id_token" {
-  description = "ID token from the identity provider to exchange with the control server for workload identity federation; if it begins with \"file:\", then it's a path to a file containing the token"
+  description = "ID token from the identity provider to exchange with the control server for workload identity federation; if it begins with \"file:\", then it's a path to a file containing the token; if it begins with \"command:\", then it's a command to execute that outputs the token"
   type        = string
   default     = ""
   sensitive   = true
@@ -277,7 +277,7 @@ variable "client_id" {
 }
 
 variable "client_secret" {
-  description = "Client Secret used to generate authkeys via OAuth; if it begins with \"file:\", then it's a path to a file containing the secret"
+  description = "Client Secret used to generate authkeys via OAuth; if it begins with \"file:\", then it's a path to a file containing the secret; if it begins with \"command:\", then it's a command to execute that outputs the secret"
   type        = string
   default     = ""
   sensitive   = true
