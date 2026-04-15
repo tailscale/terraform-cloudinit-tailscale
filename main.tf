@@ -1,9 +1,9 @@
 locals {
   # Validate that either auth_key or workload identity credentials are provided
-  has_auth_key          = var.auth_key != ""
-  has_workload_identity = var.id_token != "" && (var.client_id != "" || var.client_secret != "")
+  has_auth_key                   = var.auth_key != ""
+  has_workload_identity          = var.id_token != "" && (var.client_id != "" || var.client_secret != "")
   has_workload_identity_audience = var.audience != "" && var.client_id != ""
-  has_valid_auth        = local.has_auth_key || local.has_workload_identity || local.has_workload_identity_audience
+  has_valid_auth                 = local.has_auth_key || local.has_workload_identity || local.has_workload_identity_audience
 }
 
 data "cloudinit_config" "main" {
@@ -86,7 +86,7 @@ data "cloudinit_config" "main" {
       STATEFUL_FILTERING         = var.stateful_filtering
       MAX_RETRIES                = var.max_retries
       RETRY_DELAY                = var.retry_delay
-      RELAY_SERVER_PORT          = var.relay_server_port
+      RELAY_SERVER_PORT          = var.relay_server_port == null ? "" : tostring(var.relay_server_port)
       ID_TOKEN                   = sensitive(var.id_token)
       CLIENT_ID                  = var.client_id
       CLIENT_SECRET              = sensitive(var.client_secret)
