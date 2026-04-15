@@ -183,6 +183,11 @@ variable "relay_server_port" {
   description = "Port for the Tailscale relay server; when null, peer relay advertisement is not configured"
   type        = number
   default     = null
+
+  validation {
+    condition     = var.relay_server_port == null || (var.relay_server_port > 0 && var.relay_server_port <= 65535)
+    error_message = "relay_server_port must be null or a valid TCP/UDP port in the range 1-65535."
+  }
 }
 
 variable "tailscaled_flag_bird_socket" {

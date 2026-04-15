@@ -13,7 +13,7 @@ resolve_value() {
       eval "$${value#command:}" | tr -d '\n'
       ;;
     *)
-      echo "$value"
+      printf '%s' "$value"
       ;;
   esac
 }
