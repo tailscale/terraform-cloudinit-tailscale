@@ -180,9 +180,9 @@ variable "track" {
 }
 
 variable "relay_server_port" {
-  description = "Port for the Tailscale relay server"
+  description = "Port for the Tailscale relay server; when null, peer relay advertisement is not configured"
   type        = number
-  default     = 7878
+  default     = null
 }
 
 variable "tailscaled_flag_bird_socket" {

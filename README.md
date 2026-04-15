@@ -31,7 +31,7 @@
 | <a name="input_max_retries"></a> [max\_retries](#input\_max\_retries) | maximum number of retries to connect to the control server | `number` | `3` | no |
 | <a name="input_netfilter_mode"></a> [netfilter\_mode](#input\_netfilter\_mode) | netfilter mode | `string` | `"on"` | no |
 | <a name="input_operator"></a> [operator](#input\_operator) | Unix username to allow to operate on tailscaled without sudo | `string` | `""` | no |
-| <a name="input_relay_server_port"></a> [relay\_server\_port](#input\_relay\_server\_port) | Port for the Tailscale relay server | `number` | `7878` | no |
+| <a name="input_relay_server_port"></a> [relay\_server\_port](#input\_relay\_server\_port) | Port for the Tailscale relay server; when null, peer relay advertisement is not configured | `number` | `null` | no |
 | <a name="input_reset"></a> [reset](#input\_reset) | reset unspecified settings to their default values | `bool` | `false` | no |
 | <a name="input_retry_delay"></a> [retry\_delay](#input\_retry\_delay) | delay in seconds between retries to connect to the control server | `number` | `5` | no |
 | <a name="input_shields_up"></a> [shields\_up](#input\_shields\_up) | don't allow incoming connections | `bool` | `false` | no |
