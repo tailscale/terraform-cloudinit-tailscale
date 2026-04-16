@@ -67,5 +67,8 @@ jobs:
           terraform_version: "1.9.8"
           terraform_wrapper: false
 
+      - name: Initialize Terraform
+        run: terraform init -backend=false -no-color
+
       - name: Run terraform tests
         run: terraform test -no-color
