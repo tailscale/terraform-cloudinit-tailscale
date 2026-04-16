@@ -1,10 +1,10 @@
 variables {
-  auth_key      = "tskey-auth-k0123456789abcdefghijklmnopqrstuv"
+  auth_key      = "test"
   base64_encode = false
   gzip          = false
 }
 
-run "default_rendering_preserves_direct_values_and_omits_relay_port" {
+run "default_rendering_preserves_direct_values_and_guards_relay_port" {
   command = plan
 
   assert {
@@ -13,8 +13,8 @@ run "default_rendering_preserves_direct_values_and_omits_relay_port" {
   }
 
   assert {
-    condition     = !strcontains(output.rendered, "--relay-server-port=")
-    error_message = "Expected relay_server_port to be omitted when unset."
+    condition = length(regexall("if \\[ -n \"\" \\]; then\\s+tailscale set --relay-server-port=\"\"\\s+fi", output.rendered)) > 0
+    error_message = "Expected relay_server_port to be guarded by a shell conditional when unset."
   }
 }
 

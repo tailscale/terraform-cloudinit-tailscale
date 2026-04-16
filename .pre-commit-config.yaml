@@ -8,7 +8,7 @@ repos:
       - id: tflint
 
   - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.16.0" # Get the latest from: https://github.com/terraform-docs/terraform-docs/releases
+    rev: "v0.20.0" # Keep in sync with terraform-docs/gh-actions@v1.4.1
     hooks:
       - id: terraform-docs-system
         args: ["."]
@@ -17,7 +17,7 @@ repos:
     rev: "2.5.13" # Get the latest from: https://github.com/bridgecrewio/checkov/releases
     hooks:
       - id: checkov
-        args: [--skip-check, "CKV_TF_1"] # Terraform module sources do not use a git url with a commit hash revision
+        entry: checkov -d . --skip-check CKV_TF_1 --skip-path ^\\.pre-commit-cache/
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.5.0" # Get the latest from: https://github.com/pre-commit/pre-commit-hooks/releases
