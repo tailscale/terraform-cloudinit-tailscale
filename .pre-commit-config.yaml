@@ -7,11 +7,15 @@ repos:
       - id: terraform-fmt
       - id: tflint
 
-  - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.20.0" # Keep in sync with terraform-docs/gh-actions@v1.4.1
+  - repo: local
     hooks:
-      - id: terraform-docs-system
-        args: ["."]
+      - id: terraform-docs
+        name: terraform-docs
+        language: system
+        entry: ./scripts/run-terraform-docs.sh
+        args: ["markdown", "table", "--config", ".terraform-docs.yml", "."]
+        pass_filenames: false
+        files: "\\.tf$"
 
   - repo: https://github.com/bridgecrewio/checkov.git
     rev: "2.5.13" # Get the latest from: https://github.com/bridgecrewio/checkov/releases

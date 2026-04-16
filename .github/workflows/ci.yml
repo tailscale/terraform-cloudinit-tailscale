@@ -14,7 +14,7 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     env:
-      SKIP: terraform-docs-system
+      SKIP: terraform-docs
       TF_IN_AUTOMATION: "true"
     steps:
       - name: Check out repository
@@ -47,12 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check README docs
-        uses: terraform-docs/gh-actions@v1.4.1
-        with:
-          working-dir: .
-          config-file: .terraform-docs.yml
-          fail-on-diff: "true"
-          git-push: "false"
+        run: ./scripts/run-terraform-docs.sh markdown table --config .terraform-docs.yml --output-check .
 
   unit-tests:
     name: Unit Tests
