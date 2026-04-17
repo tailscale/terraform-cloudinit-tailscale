@@ -7,17 +7,21 @@ repos:
       - id: terraform-fmt
       - id: tflint
 
-  - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.16.0" # Get the latest from: https://github.com/terraform-docs/terraform-docs/releases
+  - repo: local
     hooks:
-      - id: terraform-docs-system
-        args: ["."]
+      - id: terraform-docs
+        name: terraform-docs
+        language: system
+        entry: ./scripts/run-terraform-docs.sh
+        args: ["markdown", "table", "--config", ".terraform-docs.yml", "."]
+        pass_filenames: false
+        files: "\\.tf$"
 
   - repo: https://github.com/bridgecrewio/checkov.git
     rev: "2.5.13" # Get the latest from: https://github.com/bridgecrewio/checkov/releases
     hooks:
       - id: checkov
-        args: [--skip-check, "CKV_TF_1"] # Terraform module sources do not use a git url with a commit hash revision
+        entry: checkov -d . --skip-check CKV_TF_1 --skip-path ^\\.pre-commit-cache/
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.5.0" # Get the latest from: https://github.com/pre-commit/pre-commit-hooks/releases

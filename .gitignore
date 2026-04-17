@@ -3,3 +3,5 @@
 **/terraform.tfstate*
 **/.terraform.tfstate*
 .terraform.lock.hcl
+.pre-commit-cache/
+.tools/

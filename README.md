@@ -9,7 +9,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_accept_dns"></a> [accept\_dns](#input\_accept\_dns) | Accept DNS configuration from Tailscale | `bool` | `true` | no |
 | <a name="input_accept_routes"></a> [accept\_routes](#input\_accept\_routes) | Accept routes from Tailscale | `bool` | `false` | no |
-| <a name="input_additional_parts"></a> [additional\_parts](#input\_additional\_parts) | Additional user defined part blocks for the cloudinit\_config data source | <pre>list(object({<br>    filename     = string<br>    content_type = optional(string)<br>    content      = optional(string)<br>    merge_type   = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_additional_parts"></a> [additional\_parts](#input\_additional\_parts) | Additional user defined part blocks for the cloudinit\_config data source | <pre>list(object({<br/>    filename     = string<br/>    content_type = optional(string)<br/>    content      = optional(string)<br/>    merge_type   = optional(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_advertise_connector"></a> [advertise\_connector](#input\_advertise\_connector) | Advertise this node as an app connector | `bool` | `false` | no |
 | <a name="input_advertise_exit_node"></a> [advertise\_exit\_node](#input\_advertise\_exit\_node) | Offer to be an exit node for internet traffic for the tailnet | `bool` | `false` | no |
 | <a name="input_advertise_routes"></a> [advertise\_routes](#input\_advertise\_routes) | Routes to advertise to other nodes | `list(string)` | `[]` | no |

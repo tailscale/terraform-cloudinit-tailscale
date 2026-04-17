@@ -185,7 +185,7 @@ variable "relay_server_port" {
   default     = null
 
   validation {
-    condition     = var.relay_server_port == null || (var.relay_server_port > 0 && var.relay_server_port <= 65535)
+    condition     = var.relay_server_port == null ? true : (var.relay_server_port > 0 && var.relay_server_port <= 65535)
     error_message = "relay_server_port must be null or a valid TCP/UDP port in the range 1-65535."
   }
 }
